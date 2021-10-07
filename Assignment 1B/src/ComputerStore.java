@@ -1,65 +1,5 @@
 import java.util.Scanner;
 
-class Computer {
-	
-	String brand;
-	String model;
-	String serialNumber;
-	double price;
-
-	public Computer() {
-	}
-
-	public Computer(String brand, String model, String serialNumber, double price) {
-		this.brand = brand;
-		this.model = model;
-		this.serialNumber = serialNumber;
-		this.price = price;
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String toString() {				   
-		return("\nComputer Info:" +
-			   "\nBrand: " + brand +
-			   "\nModel: " + model +
-			   "\nSN: " + serialNumber +
-			   "\nPrice: " + price);
-	}
-	
-
-	
-}
 
 class ComputerStore {
 	
@@ -77,6 +17,14 @@ class ComputerStore {
 		computers = new Computer[capacity];
 		this.capacity = capacity;
 	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public int getCountOfComputers() {
+		return counter;
+	}
 	
 	public boolean passwordChecker() {
 		
@@ -91,7 +39,6 @@ class ComputerStore {
 			
 			if(ps.equals("password")) 
 			{
-				//sc.close();
 				return true;
 			}
 			else
@@ -101,8 +48,9 @@ class ComputerStore {
 			}
 			
 		}while(passwordCount < 3);
-		
-		//sc.close();
+
+		System.out.println("\nWrong Password entered 3 times, returning to main menu.\n");
+
 		return false;
 	}
 	
@@ -116,14 +64,21 @@ class ComputerStore {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		String brand = null, model = null, serialNumber = null;
+		String brand = null, model = null;
+		long serialNumber = 0;
 		double price = 0;
-		
+
+		if(capacity == counter)
+		{
+			System.out.println("Computer Store is full, no more computers can be added\n");
+			return;
+		}
+
+
 		System.out.println("How many computers you want to enter?");
 		int num_com = sc.nextInt();
 		sc.nextLine();
-		
-		//Add code to check if num_com is less than available capacity of Computer Store
+
 		while(num_com > (capacity - counter))
 		{
 			System.out.println("Entered number is greater than capacity of the Computer Store, you can only add " + (capacity - counter) + " computers");
@@ -134,14 +89,15 @@ class ComputerStore {
 		
 		
 		for (int i = 0; i < num_com; i++) {
-			
+			System.out.println("\n\nEnter Details of Computer " + i + " :\n");
 			
 			System.out.println("Enter Brand of Computer");
 			brand = sc.nextLine();
 			System.out.println("Enter Model of Computer");
 			model = sc.nextLine();
 			System.out.println("Enter Serial Number Of Computer");
-			serialNumber = sc.nextLine();
+			serialNumber = sc.nextLong();
+			sc.nextLine();
 			System.out.println("Enter Price of Computer");
 			price = sc.nextDouble();
 			sc.nextLine();
@@ -149,14 +105,12 @@ class ComputerStore {
 			computers[counter] = new Computer();
 			computers[counter].setBrand(brand);
 			computers[counter].setModel(model);
-			computers[counter].setSerialNumber(serialNumber);
+			computers[counter].setSN(serialNumber);
 			computers[counter].setPrice(price);
 			counter++;
 			
 		}
-		
-		
-		//sc.close();
+
 	}
 	
 	public void editComputer(int index) {
@@ -170,10 +124,10 @@ class ComputerStore {
 		System.out.println("\nComputer # " + index +
 						   "\nBrand: " + computers[index].getBrand() +
 						   "\nModel: " + computers[index].getModel() +
-						   "\nSN: " + computers[index].getSerialNumber() +
+						   "\nSN: " + computers[index].getSN() +
 						   "\nPrice: " + computers[index].getPrice());
 
-		//watch this condition
+
 		while (1 <= choice && choice < 5)
 		{
 			System.out.println("\nWhat information would you like to change?" +
@@ -206,7 +160,8 @@ class ComputerStore {
 						
 					case 3:
 						System.out.println("\nEnter updated Serial Number:  ");
-						computers[index].setSerialNumber(sc.nextLine());
+						computers[index].setSN(sc.nextLong());
+						sc.nextLine();
 						break;
 						
 					case 4:
@@ -223,40 +178,41 @@ class ComputerStore {
 				}
 			}
 		}
-		
-		//sc.close();
+
 	}
 	
 	public void displayComputerByBrand(String computerBrand) {
-		
+		int flag = 0;
 		for(Computer computer : computers) {
 			if(computer != null && computer.getBrand().equals(computerBrand))
 			{
 				System.out.println(computer);
+				flag = 1;
 			}			
 		}
-		
+
+		if(flag == 0){
+			System.out.println("No computers by that brand name exists.");
+		}
 	}
 	
 	public void displayComputerCheaperThan(double computerPrice) {
-		
+		int flag = 0;
 		for(Computer computer : computers) {
 			if(computer != null && computer.getPrice() < computerPrice)
 			{
 				System.out.println(computer);
+				flag = 1;
 			}			
+		}
+
+		if(flag == 0){
+			System.out.println("No computers below that price exists.");
 		}
 	}
 	
-	public int getCapacity() {
-		return capacity;
-	}
-	
-	public int getCountOfComputers() {
-		return counter;
-	}
-	
-	
+
+
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
@@ -272,21 +228,19 @@ class ComputerStore {
 		while ((userChoice > 0 && userChoice < 5))
 		{
 			
-			System.out.println("What do you want to do?");
+			System.out.println("\nWhat do you want to do?");
 			System.out.println("1. Enter new computers (password required)");
 			System.out.println("2. Change information of a computer (password required)");
 			System.out.println("3. Display all computers by a specific brand");
 			System.out.println("4. Display all computers under a certain a price.");
 			System.out.println("5. Quit");
 			System.out.println("Please Enter Your Choice >");
-			//sc.nextLine();
 			userChoice = sc.nextInt();
 			sc.nextLine();
 		
 			switch (userChoice) {
 				case 1:
 					computerStore.addComputer();
-					//sc.nextLine();
 					break;
 					
 				case 2:
@@ -310,7 +264,7 @@ class ComputerStore {
 					break;
 				
 				case 5:
-					//exit
+					System.out.println("\nExiting Computer Store now. Thank you  ");
 					break;
 				
 				default:
@@ -321,7 +275,7 @@ class ComputerStore {
 				
 		}
 		
-		//sc.close();
+		sc.close();
 	}
 	
 }
