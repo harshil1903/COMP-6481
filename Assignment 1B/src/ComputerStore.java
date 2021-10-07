@@ -1,3 +1,21 @@
+/**
+ * ---------------------------------------------------------------------------
+ * Assignment 1
+ * @author Harshil
+ * @author Parth
+ * written by: (Harshil Patel - 40163431 , Parth Navsariwala - 40178800)
+ * ---------------------------------------------------------------------------
+ */
+
+
+/**
+ * This program has a ComputerStore class which provides the functionality of inventory management of computers.
+ * Along with adding computer info, user can also edit information of computers already in the store, display list
+ * of computers of a particular brands or list of computers below certain price.
+ */
+
+
+
 import java.util.Scanner;
 
 
@@ -25,7 +43,8 @@ class ComputerStore {
 	public int getCountOfComputers() {
 		return counter;
 	}
-	
+
+	//Method to check if password is correct or not
 	public boolean passwordChecker() {
 		
 		Scanner sc = new Scanner(System.in);
@@ -55,7 +74,7 @@ class ComputerStore {
 	}
 	
 	
-	
+	//Method to add computer info to the computer store
 	public void addComputer() {
 		
 		if(!passwordChecker())
@@ -112,7 +131,9 @@ class ComputerStore {
 		}
 
 	}
-	
+
+
+	//method to edit information of existing computer in the computer store
 	public void editComputer(int index) {
 		
 		if(!passwordChecker())
@@ -180,7 +201,9 @@ class ComputerStore {
 		}
 
 	}
-	
+
+
+	//method to display all computers of a specific brand
 	public void displayComputerByBrand(String computerBrand) {
 		int flag = 0;
 		for(Computer computer : computers) {
@@ -195,7 +218,9 @@ class ComputerStore {
 			System.out.println("No computers by that brand name exists.");
 		}
 	}
-	
+
+
+	//method to display computers with price lesser than certain value
 	public void displayComputerCheaperThan(double computerPrice) {
 		int flag = 0;
 		for(Computer computer : computers) {
@@ -212,7 +237,7 @@ class ComputerStore {
 	}
 	
 
-
+	//Driver function
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);

@@ -6,6 +6,8 @@
  * written by: (Harshil Patel - 40163431 , Parth Navsariwala - 40178800)
  * ---------------------------------------------------------------------------
  */
+
+
 public class Computer {
     public String brand;
     public String model;
